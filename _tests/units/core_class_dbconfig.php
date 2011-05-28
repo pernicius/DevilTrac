@@ -5,7 +5,8 @@ require_once(dirname(__FILE__) . '/../simpletest/autorun.php');
 require_once(dirname(__FILE__) . '/../../core/includes/class.dbconfig.php');
 
 
-class Test_CoreClass_DBConfig extends UnitTestCase {
+class Test_CoreClass_DBConfig extends UnitTestCase
+{
 	function __construct() {
 		parent::__construct();
 	}
@@ -20,20 +21,46 @@ class Test_CoreClass_DBConfig extends UnitTestCase {
 	
 	// ---------- invalid args
 	
-	function testNoConfigsNoArgs() {
-		$this->expectException();
-		$cfg = new DBConfig;
+	function testInvalidArgs() {
+		// no args
+		$this->expectException(); $cfg = new DBConfig;
+		// empty string
+		$this->expectException(); $cfg = new DBConfig('');
+		// empty array
+		$this->expectException(); $cfg = new DBConfig(array());
+		// nonexistent config
+		$this->expectException(); $cfg = new DBConfig('foobar');
+		// invalid object
+		$this->expectException(); $cfg = new DBConfig(new Exception);
+		// misc
+		$this->expectException(); $cfg = new DBConfig(true);
+		$this->expectException(); $cfg = new DBConfig(false);
+		$this->expectException(); $cfg = new DBConfig(1);
+		$this->expectException(); $cfg = new DBConfig(0);
+		$this->expectException(); $cfg = new DBConfig(-1);
 	}
-	
-	// TODO: ...
-	// TODO: ...
-	// TODO: ...
 	
 	// ---------- creating configurations
 	
-	// TODO: ...
-	// TODO: ...
-	// TODO: ...
+	function testCreateDefault() {
+		$cfg = array('name'=>'_default');
+		$test = new DBConfig($cfg);
+		$this->assertIdentical($test->_cfg, $cfg);
+	}
+	
+	function testCreateNormal() {
+		$cfg = array('name'=>'normal');
+		$test = new DBConfig($cfg);
+		$this->assertIdentical($test->_cfg, $cfg);
+	}
+	
+	function testCreateExiting() {
+		$cfg = array('name'=>'normal');
+		$test = new DBConfig($cfg);
+		
+		$this->expectException();
+		$test = new DBConfig($cfg);
+	}
 	
 	// ---------- using configurations
 	
@@ -53,7 +80,7 @@ class Test_CoreClass_DBConfig extends UnitTestCase {
 		$this->assertIdentical($cfg->_cfg, DBConfig::$_configs['test']);
 	}
 	
-	function testConfigCloning() {
+	function testUseConfigByCloning() {
 		// create empty 'test' config
 		$dummy = new DBConfig(array('name'=>'test'));
 		// test
@@ -61,4 +88,6 @@ class Test_CoreClass_DBConfig extends UnitTestCase {
 		$this->assertIdentical($cfg->_cfg, $dummy->_cfg);
 	}
 }
+
+
 ?>
