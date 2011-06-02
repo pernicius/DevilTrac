@@ -62,6 +62,15 @@ class Test_CoreClass_DBConfig extends UnitTestCase
 		$test = new DBConfig($cfg);
 	}
 	
+	function testCreateExitingOverride() {
+		$cfg = array('name'=>'normal');
+		$test = new DBConfig($cfg);
+		
+		$cfg = array('name'=>'normal', 'override'=>true);
+		$test = new DBConfig($cfg);
+		$this->assertIdentical($test->_cfg, $cfg);
+	}
+	
 	// ---------- using configurations
 	
 	function testUseDefaultConfig() {
@@ -87,7 +96,8 @@ class Test_CoreClass_DBConfig extends UnitTestCase
 		$cfg = new DBConfig($dummy);
 		$this->assertIdentical($cfg->_cfg, $dummy->_cfg);
 	}
-}
+	
+} // Test_CoreClass_DBConfig
 
 
 ?>
