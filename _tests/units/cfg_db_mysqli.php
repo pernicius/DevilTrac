@@ -19,4 +19,20 @@ function DBSetupTestConfig_mysqli() {
 }
 
 
+function DBSetupTestConfig_mysqli_persistent() {
+	$cfg = new DBConfig(array(
+		'name'	=> 'testconfig',
+		'type'	=> 'mysqli',
+	
+		'host'	=> 'localhost',
+		'db'	=> 'testdb',
+		'user'	=> 'testuser',
+		'pass'	=> 'testpass',
+		
+		'override'		=> true,
+		'persistent'	=> true
+	));
+}
+
+
 ?>

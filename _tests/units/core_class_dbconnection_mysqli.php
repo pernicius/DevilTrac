@@ -51,4 +51,17 @@ class Test_CoreClass_DBConnection_mysqli extends UnitTestCase
 }
 
 
+class Test_CoreClass_DBConnection_mysqli_persistent extends Test_CoreClass_DBConnection_mysqli
+{
+	function __construct() {
+		parent::__construct();
+	}
+
+	function setUp() {
+		DBSetupTestConfig_mysqli_persistent();
+	}
+	
+}
+
+
 ?>

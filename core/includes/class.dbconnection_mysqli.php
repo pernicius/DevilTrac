@@ -18,7 +18,7 @@ class DBConnection_mysqli extends DBConfig
 	
 	function connect() {
 		if (!$this->_conn = @mysqli_connect(
-				$this->_cfg['host'],
+				isset($this->_cfg['persistent']) ? 'p:'.$this->_cfg['host'] : $this->_cfg['host'],
 				$this->_cfg['user'],
 				$this->_cfg['pass'],
 				$this->_cfg['db'],
