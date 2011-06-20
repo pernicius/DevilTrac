@@ -18,6 +18,7 @@ class Test_CoreClass_DBConnection_mysqli extends UnitTestCase
 	}
 
 	function tearDown() {
+		DBConfig::clear();
 	}
 	
 	function testServerSupport() {

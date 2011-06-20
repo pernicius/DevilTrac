@@ -2,13 +2,14 @@
 //require_once(dirname(__FILE__) . '/class.dbconfig.php');
 
 
-class DBConnection_mysqli extends DBConfig
+class DBConnection_mysqli
 {
 	public $_conn = null;
+	protected $_cfg;
 	
 	// Set up a mysqli DB connection.
-	function __construct($config = '_default') {
-		parent::__construct($config);
+	function __construct($config = null) {
+		$this->_cfg = DBConfig::get($config);
 		$this->connect();
 	}
 	

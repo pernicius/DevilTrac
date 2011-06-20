@@ -12,89 +12,142 @@ class Test_CoreClass_DBConfig extends UnitTestCase
 	}
 
 	function setUp() {
-		DBConfig::$_configs = array();
+		DBConfig::clear();
 	}
 
 	function tearDown() {
-		DBConfig::$_configs = array();
+		DBConfig::clear();
 	}
 	
 	// ---------- invalid args
 	
-	function testInvalidArgs() {
+	function testInvalidArgsOnGet() {
 		// no args
-		$this->expectException(); $cfg = new DBConfig;
+		$this->expectException(); DBConfig::get();
 		// empty string
-		$this->expectException(); $cfg = new DBConfig('');
+		$this->expectException(); DBConfig::get('');
 		// empty array
-		$this->expectException(); $cfg = new DBConfig(array());
+		$this->expectException(); DBConfig::get(array());
 		// nonexistent config
-		$this->expectException(); $cfg = new DBConfig('foobar');
-		// invalid object
-		$this->expectException(); $cfg = new DBConfig(new Exception);
+		$this->expectException(); DBConfig::get('foobar');
 		// misc
-		$this->expectException(); $cfg = new DBConfig(true);
-		$this->expectException(); $cfg = new DBConfig(false);
-		$this->expectException(); $cfg = new DBConfig(1);
-		$this->expectException(); $cfg = new DBConfig(0);
-		$this->expectException(); $cfg = new DBConfig(-1);
+		$this->expectException(); DBConfig::get(true);
+		$this->expectException(); DBConfig::get(false);
+		$this->expectException(); DBConfig::get(1);
+		$this->expectException(); DBConfig::get(0);
+		$this->expectException(); DBConfig::get(-1);
+	}
+	
+	function testInvalidArgsOnSet() {
+		// no args
+//		$this->expectException(); DBConfig::set();
+		// empty string
+		$this->expectException(); DBConfig::set('');
+		// empty array
+		$this->expectException(); DBConfig::set(array());
+		// misc
+		$this->expectException(); DBConfig::set(true);
+		$this->expectException(); DBConfig::set(false);
+		$this->expectException(); DBConfig::set(1);
+		$this->expectException(); DBConfig::set(0);
+		$this->expectException(); DBConfig::set(-1);
+	}
+	
+	function testInvalidArgsOnClear() {
+		// empty string
+		$this->expectException(); DBConfig::clear('');
+		// misc
+		$this->expectException(); DBConfig::clear(array());
+		$this->expectException(); DBConfig::clear(true);
+		$this->expectException(); DBConfig::clear(false);
+		$this->expectException(); DBConfig::clear(1);
+		$this->expectException(); DBConfig::clear(0);
+		$this->expectException(); DBConfig::clear(-1);
+	}
+	
+	// ---------- static class
+	
+	function testStaticConstructor() {
+		$this->expectException(); $test = new DBConfig();
 	}
 	
 	// ---------- creating configurations
 	
 	function testCreateDefault() {
 		$cfg = array('name'=>'_default');
-		$test = new DBConfig($cfg);
-		$this->assertIdentical($test->_cfg, $cfg);
+		DBConfig::set($cfg);
+		$res = DBConfig::get();
+		$this->assertIdentical($res, $cfg);
 	}
 	
 	function testCreateNormal() {
 		$cfg = array('name'=>'normal');
-		$test = new DBConfig($cfg);
-		$this->assertIdentical($test->_cfg, $cfg);
+		DBConfig::set($cfg);
+		$res = DBConfig::get('normal');
+		$this->assertIdentical($res, $cfg);
 	}
 	
-	function testCreateExiting() {
+	function testCreateExisting() {
 		$cfg = array('name'=>'normal');
-		$test = new DBConfig($cfg);
+		DBConfig::set($cfg);
 		
 		$this->expectException();
-		$test = new DBConfig($cfg);
+		DBConfig::set($cfg);
 	}
 	
-	function testCreateExitingOverride() {
+	function testCreateExistingOverride() {
 		$cfg = array('name'=>'normal');
-		$test = new DBConfig($cfg);
+		DBConfig::set($cfg);
 		
 		$cfg = array('name'=>'normal', 'override'=>true);
-		$test = new DBConfig($cfg);
-		$this->assertIdentical($test->_cfg, $cfg);
+		DBConfig::set($cfg);
+		$res = DBConfig::get('normal');
+		$this->assertIdentical($res, $cfg);
 	}
 	
-	// ---------- using configurations
+	// ---------- requesting configurations
 	
-	function testUseDefaultConfig() {
+	function testGetDefault() {
 		// create empty '_default' config
-		$dummy = new DBConfig(array('name'=>'_default'));
+		$cfg = array('name'=>'_default');
+		DBConfig::set($cfg);
 		// test
-		$cfg = new DBConfig;
-		$this->assertIdentical($cfg->_cfg, DBConfig::$_configs['_default']);
+		$res = DBConfig::get();
+		$this->assertIdentical($res, $cfg);
 	}
 
-	function testUseConfigByName() {
+	function testGetByName() {
 		// create empty 'test' config
-		$dummy = new DBConfig(array('name'=>'test'));
+		$cfg = array('name'=>'test');
+		DBConfig::set($cfg);
 		// test
-		$cfg = new DBConfig('test');
-		$this->assertIdentical($cfg->_cfg, DBConfig::$_configs['test']);
+		$res = DBConfig::get('test');
+		$this->assertIdentical($res, $cfg);
 	}
 	
-	function testUseConfigByCloning() {
-		// create empty 'test' config
-		$dummy = new DBConfig(array('name'=>'test'));
+	// ---------- clear configurations
+	
+	function testClearByName() {
+		// create dummy configs
+		DBConfig::set(array('name'=>'foo'));
+		DBConfig::set(array('name'=>'bar'));
 		// test
-		$cfg = new DBConfig($dummy);
-		$this->assertIdentical($cfg->_cfg, $dummy->_cfg);
+		DBConfig::clear('foo');
+		$this->expectException();
+		DBConfig::get('foo');
+		$this->assertIsA(DBConfig::get('bar'), 'array');
+	}
+	
+	function testClearAll() {
+		// create dummy configs
+		DBConfig::set(array('name'=>'foo'));
+		DBConfig::set(array('name'=>'bar'));
+		// test
+		DBConfig::clear();
+		$this->expectException();
+		DBConfig::get('foo');
+		$this->expectException();
+		DBConfig::get('bar');
 	}
 	
 } // Test_CoreClass_DBConfig

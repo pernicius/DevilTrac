@@ -1,51 +1,83 @@
 <?php
+/**
+ * page level docblock
+ * 
+ * @package DevilTrac
+ * @subpackage Core-Classes-Database
+ */
 
 
+/**
+ * class DBConfig
+ * 
+ * The base class for (mostly) all DB classes.
+ */
 class DBConfig
 {
-	// config storrage
-	static $_configs = array();
-	// used config in this object
-	var $_cfg; 
-
-	function __construct($config = null) {
-		// if no args try default config
-		if (!isset($config))
-			$config = '_default';
-			
-		// try to use...
-		if (is_string($config)) {
-			if (!isset(self::$_configs[$config]))
-				throw new Exception(get_class($this) . ': no configuration (named:\'' . $config . '\') found.');
-			// use as current config
-			$this->_cfg = self::$_configs[$config];
-			return;
-		}
-		
-		// try to clone...
-		elseif (is_object($config)) {
-			if (!isset($config->_cfg['name']))
-				throw new Exception(get_class($this) . ': object has no initialized configuration.');
-			// clone config
-			$this->_cfg = $config->_cfg;
-//			$this->_cfg['name'] = 'cloned_' . $this->_cfg['name'];
-			return;
-		}
-		
-		// try to create...
-		elseif (is_array($config)) {
-			if (!isset($config['name']))
-				throw new Exception(get_class($this) . ': missing configuration name.');
-			if (isset(self::$_configs[$config['name']]) && !isset($config['override']))
-				throw new Exception(get_class($this) . ': configuration (named:\'' . $config['name'] . '\') already exists.');
-			// store as new config
-			self::$_configs[$config['name']] = $config;
-			$this->_cfg = self::$_configs[$config['name']];
-			return;
-		}
-		
-		// fatal error...
-		throw new Exception(get_class($this) . ': no matching configuration found.');
+	/**
+	 * global config storrage
+	 */
+	protected static $_configs = array();
+	
+	/**
+	 * dummy contructor
+	 */
+	public function __construct() {
+		throw new Exception(get_class($this) . ': this class may only be invoked statically.');
 	} // __construct()
+	
+	/**
+	 * setup a new configuration
+	 * @param array $config
+	 */
+	public static function set($config) {
+		// param check
+		if (!is_array($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!isset($config['name']))
+			throw new Exception(get_class() . ': missing configuration name.');
+		if (isset(self::$_configs[$config['name']]) && (!isset($config['override']) || $config['override'] != true))
+			throw new Exception(get_class() . ': configuration (named:\'' . $config['name'] . '\') already exists.');
+		// TODO: more checks based on type
+		// store as new config
+		self::$_configs[$config['name']] = $config;
+	} // set()
+	
+	/**
+	 * request a configuration
+	 * @param string $config
+	 * @return array
+	 */
+	public static function get($config = '_default') {
+		// param check
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!isset(self::$_configs[$config]))
+			throw new Exception(get_class() . ': requested configuration (named:\'' . $config . '\') not found.');
+		// return requested config
+		return self::$_configs[$config];
+	} // get()
+	
+	/**
+	 * clear the requested or all configurations
+	 * @param string|null $config
+	 */
+	public static function clear($config = null) {
+		// param check
+		if (isset($config) && !is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		// clear all configs
+		if (!isset($config)) {
+			self::$_configs = array();
+			return;
+		}
+		// clear spezific config
+		if (is_string($config) && isset(self::$_configs[$config])) {
+			unset(self::$_configs[$config]);
+			return;
+		}
+		// config not found
+		throw new Exception(get_class() . ': requested configuration (named:\'' . $config . '\') not found.');
+	} // clear()
 	
 } // class DBConfig
