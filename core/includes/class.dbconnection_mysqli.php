@@ -31,7 +31,7 @@ class DBConnection_mysqli
 				throw new Exception('DBError: Unable to connect to mysqli database.');
 			}
 		}
-		// do we really need this? ... further info: http://www.php.net/manual/en/mysqli.set-charset.php
+		// TODO: do we really need this? ... further info: http://www.php.net/manual/en/mysqli.set-charset.php
 		if (method_exists($this->_conn, 'set_charset')) $this->_conn->set_charset('utf8');
 		
 		return true;

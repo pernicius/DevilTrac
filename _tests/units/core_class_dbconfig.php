@@ -65,6 +65,47 @@ class Test_CoreClass_DBConfig extends UnitTestCase
 		$this->expectException(); DBConfig::clear(-1);
 	}
 	
+	function testInvalidArgsOnSetParam() {
+		// empty string
+		$this->expectException(); DBConfig::setParam('', 'test', 'test');
+		$this->expectException(); DBConfig::setParam('test', '', 'test');
+		$this->expectException(); DBConfig::setParam('test', 'test', '');
+		// misc (1)
+		$this->expectException(); DBConfig::setParam(array(), 'test', 'test');
+		$this->expectException(); DBConfig::setParam(true, 'test', 'test');
+		$this->expectException(); DBConfig::setParam(false, 'test', 'test');
+		$this->expectException(); DBConfig::setParam(1, 'test', 'test');
+		$this->expectException(); DBConfig::setParam(0, 'test', 'test');
+		$this->expectException(); DBConfig::setParam(-1, 'test', 'test');
+		// misc (2)
+		$this->expectException(); DBConfig::setParam('test', array(), 'test');
+		$this->expectException(); DBConfig::setParam('test', true, 'test');
+		$this->expectException(); DBConfig::setParam('test', false, 'test');
+		$this->expectException(); DBConfig::setParam('test', 1, 'test');
+		$this->expectException(); DBConfig::setParam('test', 0, 'test');
+		$this->expectException(); DBConfig::setParam('test', -1, 'test');
+	}
+	
+	function testInvalidArgsOnGetParam() {
+		// empty string
+		$this->expectException(); DBConfig::getParam('', 'test');
+		$this->expectException(); DBConfig::getParam('test', '');
+		// misc (1)
+		$this->expectException(); DBConfig::getParam(array(), 'test');
+		$this->expectException(); DBConfig::getParam(true, 'test');
+		$this->expectException(); DBConfig::getParam(false, 'test');
+		$this->expectException(); DBConfig::getParam(1, 'test');
+		$this->expectException(); DBConfig::getParam(0, 'test');
+		$this->expectException(); DBConfig::getParam(-1, 'test');
+		// misc (2)
+		$this->expectException(); DBConfig::getParam('test', array());
+		$this->expectException(); DBConfig::getParam('test', true);
+		$this->expectException(); DBConfig::getParam('test', false);
+		$this->expectException(); DBConfig::getParam('test', 1);
+		$this->expectException(); DBConfig::getParam('test', 0);
+		$this->expectException(); DBConfig::getParam('test', -1);
+	}
+	
 	// ---------- static class
 	
 	function testStaticConstructor() {
@@ -103,6 +144,20 @@ class Test_CoreClass_DBConfig extends UnitTestCase
 		DBConfig::set($cfg);
 		$res = DBConfig::get('normal');
 		$this->assertIdentical($res, $cfg);
+	}
+	
+	// ---------- parameters
+	
+	function testSetParam() {
+		// TODO
+		// TODO
+		// TODO
+	}
+	
+	function testGetParam() {
+		// TODO
+		// TODO
+		// TODO
 	}
 	
 	// ---------- requesting configurations
