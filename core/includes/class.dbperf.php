@@ -33,6 +33,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function fetchCount($config, $increase = false) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_bool($increase))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['fc']))
@@ -51,6 +55,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function fetchCachedCount($config, $increase = false) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_bool($increase))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['fcc']))
@@ -69,6 +77,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function fetchTotalCount($config, $increase = false) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_bool($increase))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['ftc']))
@@ -85,6 +97,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function queryCount($config, $increase = false) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_bool($increase))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['qc']))
@@ -103,6 +119,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function queryCachedCount($config, $increase = false) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_bool($increase))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['qcc']))
@@ -121,6 +141,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function queryTotalCount($config, $increase = false) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_bool($increase))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['qtc']))
@@ -137,6 +161,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function execTime($config, $time2add = 0) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_int($time2add))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['et']))
@@ -155,6 +183,10 @@ class DBPerf
 	 * @return int
 	 */
 	static function execTotalTime($config, $time2add = 0) {
+		if (!is_string($config))
+			throw new Exception(get_class() . ': wrong param type.');
+		if (!is_int($time2add))
+			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
 		if (!isset(self::$_perf[$config]['ett']))
