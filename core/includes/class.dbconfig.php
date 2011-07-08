@@ -10,10 +10,10 @@
 /**
  * class DBConfig
  * 
- * The base class for (mostly) all DB classes.
+ * The storrage class for (mostly) all DB configurations.
  * Some configuration names are reserved:
  *  - "_default"  this one is used if none is spezified
- *  - "_global"   this is an incomplete set with global parameters
+ *  - "_global"   this is an incomplete set with global parameters (atm unused)
  */
 class DBConfig
 {
@@ -94,6 +94,7 @@ class DBConfig
 	
 	/**
 	 * get a single parameter in a configuration
+	 * if requestet parameter doesn't exist try global config
 	 * @param string $config
 	 * @param string $key
 	 * @param mixed $default
@@ -105,11 +106,12 @@ class DBConfig
 			throw new Exception(get_class() . ': wrong param type.');
 		if (!is_string($key))
 			throw new Exception(get_class() . ': wrong param type.');
-		// return requested param if exists
-		if (!isset(self::$_configs[$config]))
-			return $default;
-		if (!isset(self::$_configs[$config][$key]))
-			return $default;
+		// return requested param if exists (try global if not)
+		if (!isset(self::$_configs[$config]) || !isset(self::$_configs[$config][$key])) {
+			if (!isset(self::$_configs[self::CONFIG_GLOBAL]) || !isset(self::$_configs[self::CONFIG_GLOBAL][$key]))
+				return $default;
+			return self::$_configs[self::CONFIG_GLOBAL][$key];
+		}
 		return self::$_configs[$config][$key];
 	}
 	

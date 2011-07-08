@@ -160,8 +160,11 @@ class Test_CoreClass_DBConfig extends UnitTestCase
 	function testGetParam() {
 		$cfg = array('name'=>'normal');
 		DBConfig::set($cfg);
+		$cfg = array('name'=>DBConfig::CONFIG_GLOBAL, 'foo'=>'bar');
+		DBConfig::set($cfg);
 		
 		$this->assertEqual('normal', DBConfig::getParam('normal', 'name'));
+		$this->assertEqual('bar', DBConfig::getParam('normal', 'foo'));
 	}
 	
 	// ---------- requesting configurations
