@@ -3,7 +3,7 @@ require_once(dirname(__FILE__) . '/../simpletest/autorun.php');
 
 
 require_once(dirname(__FILE__) . '/cfg_db_mysqli.php');
-require_once(dirname(__FILE__) . '/../../core/includes/class.dbconfig.php');
+//require_once(dirname(__FILE__) . '/../../core/includes/class.dbconfig.php');
 require_once(dirname(__FILE__) . '/../../core/includes/class.dbconnection_mysqli.php');
 
 
@@ -28,13 +28,13 @@ class Test_CoreClass_DBConnection_mysqli extends UnitTestCase
 	
 	function testConnectOnConstruction() {
 		$test = new DBConnection_mysqli('testconfig');
-		$this->assertTrue(is_object($test->_conn));
+		$this->assertTrue(is_object($test->get()));
 	}
 	
 	function testClose() {
 		$test = new DBConnection_mysqli('testconfig');
 		$this->assertTrue($test->close());
-		$this->assertTrue(is_null($test->_conn));
+		$this->assertTrue(is_null($test->get()));
 	}
 	
 	function testConnectAfterClose() {

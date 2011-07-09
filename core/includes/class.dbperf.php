@@ -163,7 +163,7 @@ class DBPerf
 	static function execTime($config, $time2add = 0) {
 		if (!is_string($config))
 			throw new Exception(get_class() . ': wrong param type.');
-		if (!is_int($time2add))
+		if (!is_numeric($time2add))
 			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
@@ -185,7 +185,7 @@ class DBPerf
 	static function execTotalTime($config, $time2add = 0) {
 		if (!is_string($config))
 			throw new Exception(get_class() . ': wrong param type.');
-		if (!is_int($time2add))
+		if (!is_numeric($time2add))
 			throw new Exception(get_class() . ': wrong param type.');
 		if (!isset(self::$_perf[$config]))
 			self::$_perf[$config] = array();
