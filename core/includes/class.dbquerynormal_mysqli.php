@@ -55,7 +55,10 @@ class DBQueryNormal_mysqli extends DBBaseQuery
 			throw new Exception(get_class() . ': wrong param type.');
 		
 		// replace table prefix
-		// TODO...
+		$sql = preg_replace(
+			'/' . DBConfig::getParam($this->_cfgname, 'prefix_tag', '%%prefix%%') . '/',
+			DBConfig::getParam($this->_cfgname, 'prefix', ''),
+			$sql);
 		
 		// store start of exec
 		$t1 = strtok(microtime(), ' ') + strtok('');
