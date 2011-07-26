@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/../simpletest/autorun.php');
 
 require_once(dirname(__FILE__) . '/cfg_db_mysqli.php');
 //require_once(dirname(__FILE__) . '/../../core/includes/class.dbconfig.php');
-require_once(dirname(__FILE__) . '/../../core/includes/class.dbconnection_mysqli.php');
+//require_once(dirname(__FILE__) . '/../../core/includes/class.dbconnection_mysqli.php');
 
 
 class Test_CoreClass_DBConnection_mysqli extends UnitTestCase

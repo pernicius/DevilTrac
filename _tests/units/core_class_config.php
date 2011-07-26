@@ -13,7 +13,7 @@ class Test_CoreClass_Config extends UnitTestCase
 	}
 
 	function setUp() {
-		DBSetupTestConfig_mysqli();
+		DBSetupDefaultConfig_mysqli();
 	}
 
 	function tearDown() {
