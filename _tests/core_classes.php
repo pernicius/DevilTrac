@@ -14,6 +14,7 @@ class Suite_CoreClasses extends TestSuite
 		
 		// misc
 		$this->addFile(dirname(__FILE__) . '/units/core_class_config.php');
+		$this->addFile(dirname(__FILE__) . '/units/core_class_timer.php');
 	}
 }
 
