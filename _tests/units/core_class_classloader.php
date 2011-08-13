@@ -37,7 +37,7 @@ class Test_CoreClass_ClassLoader extends UnitTestCase
 	// ---------- static class
 	
 	function testStaticConstructor() {
-		$this->expectException(); $test = new Timer();
+		$this->expectException(); $test = new ClassLoader();
 	}
 	
 	// ---------- TODO
