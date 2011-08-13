@@ -13,6 +13,7 @@ class Suite_CoreClasses extends TestSuite
 		$this->addFile(dirname(__FILE__) . '/units/core_class_db_mysqli.php');
 		
 		// misc
+		$this->addFile(dirname(__FILE__) . '/units/core_class_classloader.php');
 		$this->addFile(dirname(__FILE__) . '/units/core_class_config.php');
 		$this->addFile(dirname(__FILE__) . '/units/core_class_timer.php');
 	}
